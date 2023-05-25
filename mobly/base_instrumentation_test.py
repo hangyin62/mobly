@@ -912,6 +912,7 @@ class InstrumentationTestMixin:
   def run_instrumentation_test(self,
                                device,
                                package,
+                               user=0,
                                options=None,
                                prefix=None,
                                runner=None):
@@ -946,6 +947,7 @@ class InstrumentationTestMixin:
                                                   line)
 
     device.adb.instrument(package=package,
+                          user=user,
                           options=options,
                           runner=runner,
                           handler=parse_instrumentation)

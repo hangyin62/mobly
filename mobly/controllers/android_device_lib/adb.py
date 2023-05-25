@@ -444,6 +444,7 @@ class AdbProxy:
 
   def instrument(self,
                  package,
+                 user=0,
                  options=None,
                  runner=None,
                  handler=None) -> bytes:
@@ -487,7 +488,11 @@ class AdbProxy:
       options_list.append('-e %s %s' % (option_key, option_value))
     options_string = ' '.join(options_list)
 
-    instrumentation_command = 'am instrument -r -w %s %s/%s' % (options_string,
+    if user == 0:
+      instrumentation_command = 'am instrument -r -w %s %s/%s' % (options_string,
+                                                                package, runner)
+    else:
+      instrumentation_command = 'am instrument -r -w --user %d %s %s/%s' % (user, options_string,
                                                                 package, runner)
     logging.info('AndroidDevice|%s: Executing adb shell %s', self.serial,
                  instrumentation_command)
